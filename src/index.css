@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Committee Management System Design System */
+
+@layer base {
+  :root {
+    /* Core Colors - Municipal Theme */
+    --background: 210 20% 98%;
+    --foreground: 215 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 15%;
+
+    /* Municipal Blue Primary */
+    --primary: 214 84% 32%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 214 100% 96%;
+    --primary-glow: 214 84% 45%;
+
+    /* Professional Grays */
+    --secondary: 215 20% 95%;
+    --secondary-foreground: 215 25% 25%;
+
+    --muted: 215 15% 92%;
+    --muted-foreground: 215 16% 46%;
+
+    /* Municipal Gold Accent */
+    --accent: 43 100% 68%;
+    --accent-foreground: 215 25% 15%;
+    --accent-light: 43 100% 95%;
+
+    /* Semantic Colors */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 215 20% 88%;
+    --input: 215 20% 88%;
+    --ring: 214 84% 32%;
+
+    --radius: 0.5rem;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-header: linear-gradient(180deg, hsl(var(--primary-light)), hsl(var(--background)));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(43 100% 58%));
+
+    /* Shadows */
+    --shadow-card: 0 2px 8px -2px hsl(var(--primary) / 0.1);
+    --shadow-primary: 0 4px 20px -4px hsl(var(--primary) / 0.25);
+    --shadow-accent: 0 4px 16px -4px hsl(var(--accent) / 0.3);
+
+    /* Animation */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 215 25% 26%;
+    --sidebar-primary: 214 84% 32%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 215 20% 95%;
+    --sidebar-accent-foreground: 214 84% 32%;
+    --sidebar-border: 215 20% 88%;
+    --sidebar-ring: 214 84% 32%;
+  }
+
+  .dark {
+    --background: 215 28% 9%;
+    --foreground: 210 40% 95%;
+
+    --card: 215 28% 12%;
+    --card-foreground: 210 40% 95%;
+
+    --popover: 215 28% 12%;
+    --popover-foreground: 210 40% 95%;
+
+    --primary: 214 84% 45%;
+    --primary-foreground: 215 28% 9%;
+    --primary-light: 214 84% 15%;
+    --primary-glow: 214 84% 55%;
+
+    --secondary: 215 25% 15%;
+    --secondary-foreground: 210 40% 95%;
+
+    --muted: 215 25% 15%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 43 100% 68%;
+    --accent-foreground: 215 28% 9%;
+    --accent-light: 43 100% 12%;
+
+    --success: 142 76% 45%;
+    --success-foreground: 215 28% 9%;
+    --warning: 38 92% 60%;
+    --warning-foreground: 215 28% 9%;
+    --destructive: 0 84% 70%;
+    --destructive-foreground: 215 28% 9%;
+
+    --border: 215 25% 20%;
+    --input: 215 25% 20%;
+    --ring: 214 84% 45%;
+
+    --sidebar-background: 215 28% 8%;
+    --sidebar-foreground: 210 40% 90%;
+    --sidebar-primary: 214 84% 45%;
+    --sidebar-primary-foreground: 215 28% 9%;
+    --sidebar-accent: 215 25% 12%;
+    --sidebar-accent-foreground: 214 84% 45%;
+    --sidebar-border: 215 25% 15%;
+    --sidebar-ring: 214 84% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Shepherd.js Product Tour Styling */
+.shepherd-theme-custom {
+  @apply rounded-lg shadow-lg border border-border;
+}
+
+.shepherd-element {
+  @apply bg-card text-card-foreground;
+  z-index: 9999;
+}
+
+.shepherd-header {
+  @apply bg-primary text-primary-foreground p-4 rounded-t-lg;
+}
+
+.shepherd-title {
+  @apply text-lg font-semibold;
+}
+
+.shepherd-text {
+  @apply p-4 text-sm leading-relaxed;
+}
+
+.shepherd-footer {
+  @apply p-4 flex justify-end gap-2 bg-muted/30 rounded-b-lg;
+}
+
+.shepherd-button {
+  @apply px-4 py-2 rounded-md font-medium transition-colors;
+}
+
+.shepherd-button-primary {
+  @apply bg-primary text-primary-foreground hover:bg-primary/90;
+}
+
+.shepherd-button-secondary {
+  @apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
+}
+
+.shepherd-cancel-icon {
+  @apply text-muted-foreground hover:text-foreground transition-colors;
+}
+
+.shepherd-modal-overlay-container {
+  @apply bg-background/80 backdrop-blur-sm;
+}
+
+.shepherd-target {
+  @apply rounded-lg ring-2 ring-primary ring-offset-2;
+}
+
+.shepherd-enabled.shepherd-element {
+  animation: shepherd-fade-in 0.3s ease-out;
+}
+
+@keyframes shepherd-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

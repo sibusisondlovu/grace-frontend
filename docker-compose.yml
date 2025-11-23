@@ -1,0 +1,25 @@
+version: '3.0'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: grace-postgres
+    environment:
+      POSTGRES_USER: grace_user
+      POSTGRES_PASSWORD: grace_password
+      POSTGRES_DB: grace_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U grace_user -d grace_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+
+
