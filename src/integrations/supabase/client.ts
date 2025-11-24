@@ -1,13 +1,17 @@
-import { createClient } from '@supabase/supabase-js';
-import type { Database } from './types';
+// Supabase client has been removed in favor of Microsoft Entra ID and direct API calls.
+// This file is kept as a placeholder to prevent import errors during migration, 
+// but should not be used.
 
-const SUPABASE_URL = 'https://ynslelukmmfbcjlfzppa.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inluc2xlbHVrbW1mYmNqbGZ6cHBhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY3NTExMzAsImV4cCI6MjA3MjMyNzEzMH0.yQ65C_KXVcgvXqTsSyYaptelVb06Y3MkCQR4FU_OF5w';
-
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+export const supabase = {
   auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true
-  }
-});
+    onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => { } } } }),
+    getSession: async () => ({ data: { session: null } }),
+    signInWithPassword: async () => ({ error: { message: "Supabase auth removed" } }),
+    signOut: async () => ({ error: null }),
+    signInWithOAuth: async () => ({ error: { message: "Supabase auth removed" } }),
+  },
+  from: () => ({
+    select: () => ({ eq: () => ({ single: () => ({ data: null, error: null }) }) }),
+  })
+} as any;
+

@@ -1,22 +1,21 @@
 import { useState, useEffect, createContext, useContext } from 'react';
-import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
+import { AccountInfo } from "@azure/msal-browser";
+import { useMsal } from "@azure/msal-react";
+import { loginRequest } from "../authConfig";
 import { toast } from '@/hooks/use-toast';
 
 interface AuthContextType {
-  user: User | null;
-  session: Session | null;
+  user: AccountInfo | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signOut: () => Promise<{ error: any }>;
+  signIn: () => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
-  session: null,
   loading: true,
-  signIn: async () => ({ error: null }),
-  signOut: async () => ({ error: null }),
+  signIn: async () => { },
+  signOut: async () => { },
 });
 
 export const useAuth = () => {
@@ -28,93 +27,53 @@ export const useAuth = () => {
 };
 
 export const useAuthProvider = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
+  const { instance, accounts, inProgress } = useMsal();
+  const [user, setUser] = useState<AccountInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setLoading(false);
-      }
-    );
-
-    // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const signIn = async (email: string, password: string) => {
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      
-      if (error) {
-        toast({
-          title: "Authentication Error",
-          description: error.message,
-          variant: "destructive",
-        });
+    if (inProgress === "none") {
+      if (accounts.length > 0) {
+        setUser(accounts[0]);
       } else {
-        toast({
-          title: "Success",
-          description: "Successfully signed in!",
-        });
+        setUser(null);
       }
-      
-      return { error };
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [inProgress, accounts]);
+
+  const signIn = async () => {
+    try {
+      await instance.loginRedirect(loginRequest);
     } catch (error: any) {
+      console.error("Login failed", error);
       toast({
         title: "Authentication Error",
-        description: error.message,
+        description: error.message || "Failed to sign in",
         variant: "destructive",
       });
-      return { error };
     }
   };
 
-
   const signOut = async () => {
     try {
-      const { error } = await supabase.auth.signOut();
-      
-      if (error) {
-        toast({
-          title: "Error",
-          description: error.message,
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Success",
-          description: "Successfully signed out!",
-        });
-      }
-      
-      return { error };
+      await instance.logoutRedirect({
+        postLogoutRedirectUri: window.location.origin,
+      });
     } catch (error: any) {
+      console.error("Logout failed", error);
       toast({
         title: "Error",
-        description: error.message,
+        description: error.message || "Failed to sign out",
         variant: "destructive",
       });
-      return { error };
     }
   };
 
   return {
     user,
-    session,
     loading,
     signIn,
     signOut,

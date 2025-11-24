@@ -1,4 +1,6 @@
 import { ReactNode } from 'react';
+import { MsalProvider } from "@azure/msal-react";
+import { msalInstance } from "@/services/api";
 import { AuthContext, useAuthProvider } from '@/hooks/useAuth';
 
 interface AuthProviderProps {
@@ -9,8 +11,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const auth = useAuthProvider();
 
   return (
-    <AuthContext.Provider value={auth}>
-      {children}
-    </AuthContext.Provider>
+    <MsalProvider instance={msalInstance}>
+      <AuthContext.Provider value={auth}>
+        {children}
+      </AuthContext.Provider>
+    </MsalProvider>
   );
 }
