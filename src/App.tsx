@@ -47,60 +47,65 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
+import { MsalProvider } from "@azure/msal-react";
+import { msalInstance } from "@/services/api";
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <OrganizationProvider>
-        <BrandingProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-            <Routes>
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
-              <Route path="/" element={<ProtectedRoute><Layout><Dashboard /></Layout></ProtectedRoute>} />
-              <Route path="/committees" element={<ProtectedRoute><Layout><Committees /></Layout></ProtectedRoute>} />
-              <Route path="/committees/:id" element={<ProtectedRoute><Layout><CommitteeDetail /></Layout></ProtectedRoute>} />
-              <Route path="/motions" element={<ProtectedRoute><Layout><Motions /></Layout></ProtectedRoute>} />
-              <Route path="/information-requests" element={<ProtectedRoute><Layout><InformationRequests /></Layout></ProtectedRoute>} />
-              <Route path="/site-visits" element={<ProtectedRoute><Layout><SiteVisits /></Layout></ProtectedRoute>} />
-              <Route path="/uifw-cases" element={<ProtectedRoute><Layout><UIFWCases /></Layout></ProtectedRoute>} />
-              <Route path="/meetings/*" element={<ProtectedRoute><Layout><MeetingsLayout /></Layout></ProtectedRoute>}>
-                <Route path="upcoming" element={<UpcomingMeetings />} />
-                <Route path="past" element={<PastMeetings />} />
-                <Route path="schedule" element={<ScheduleMeeting />} />
-                <Route index element={<Navigate to="upcoming" replace />} />
-              </Route>
-              <Route path="/meeting/:id" element={<ProtectedRoute><Layout><MeetingDetail /></Layout></ProtectedRoute>} />
-              <Route path="/actions" element={<ProtectedRoute><Layout><Actions /></Layout></ProtectedRoute>} />
-              <Route path="/members" element={<ProtectedRoute><Layout><Members /></Layout></ProtectedRoute>} />
-              <Route path="/agendas" element={<ProtectedRoute><Layout><Agendas /></Layout></ProtectedRoute>} />
-              <Route path="/voting" element={<ProtectedRoute><Layout><Voting /></Layout></ProtectedRoute>} />
-              <Route path="/search" element={<ProtectedRoute><Layout><SearchPage /></Layout></ProtectedRoute>} />
-              <Route path="/oversight" element={<ProtectedRoute><Layout><Oversight /></Layout></ProtectedRoute>} />
-              <Route path="/oversight/mpac" element={<ProtectedRoute><Layout><MPACReports /></Layout></ProtectedRoute>} />
-              <Route path="/oversight/audit" element={<ProtectedRoute><Layout><AuditCommittee /></Layout></ProtectedRoute>} />
-              <Route path="/oversight/disciplinary" element={<ProtectedRoute><Layout><Disciplinary /></Layout></ProtectedRoute>} />
-              <Route path="/compliance" element={<ProtectedRoute><Layout><Compliance /></Layout></ProtectedRoute>} />
-              <Route path="/processes" element={<ProtectedRoute><Layout><Processes /></Layout></ProtectedRoute>} />
-              <Route path="/documents" element={<ProtectedRoute><Layout><Documents /></Layout></ProtectedRoute>} />
-              <Route path="/departmental-dashboard" element={<ProtectedRoute><Layout><DepartmentalDashboard /></Layout></ProtectedRoute>} />
-              <Route path="/profile" element={<ProtectedRoute><Layout><Profile /></Layout></ProtectedRoute>} />
-              <Route path="/settings" element={<ProtectedRoute><Layout><Settings /></Layout></ProtectedRoute>} />
-              <Route path="/admin/dashboard" element={<ProtectedRoute><SuperAdminDashboard /></ProtectedRoute>} />
-              <Route path="/admin/organizations" element={<ProtectedRoute><Organizations /></ProtectedRoute>} />
-              <Route path="/admin/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
-              <Route path="/terms-of-service" element={<TermsOfService />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </BrandingProvider>
-      </OrganizationProvider>
-    </AuthProvider>
+    <MsalProvider instance={msalInstance}>
+      <AuthProvider>
+        <OrganizationProvider>
+          <BrandingProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
+                  <Route path="/" element={<ProtectedRoute><Layout><Dashboard /></Layout></ProtectedRoute>} />
+                  <Route path="/committees" element={<ProtectedRoute><Layout><Committees /></Layout></ProtectedRoute>} />
+                  <Route path="/committees/:id" element={<ProtectedRoute><Layout><CommitteeDetail /></Layout></ProtectedRoute>} />
+                  <Route path="/motions" element={<ProtectedRoute><Layout><Motions /></Layout></ProtectedRoute>} />
+                  <Route path="/information-requests" element={<ProtectedRoute><Layout><InformationRequests /></Layout></ProtectedRoute>} />
+                  <Route path="/site-visits" element={<ProtectedRoute><Layout><SiteVisits /></Layout></ProtectedRoute>} />
+                  <Route path="/uifw-cases" element={<ProtectedRoute><Layout><UIFWCases /></Layout></ProtectedRoute>} />
+                  <Route path="/meetings/*" element={<ProtectedRoute><Layout><MeetingsLayout /></Layout></ProtectedRoute>}>
+                    <Route path="upcoming" element={<UpcomingMeetings />} />
+                    <Route path="past" element={<PastMeetings />} />
+                    <Route path="schedule" element={<ScheduleMeeting />} />
+                    <Route index element={<Navigate to="upcoming" replace />} />
+                  </Route>
+                  <Route path="/meeting/:id" element={<ProtectedRoute><Layout><MeetingDetail /></Layout></ProtectedRoute>} />
+                  <Route path="/actions" element={<ProtectedRoute><Layout><Actions /></Layout></ProtectedRoute>} />
+                  <Route path="/members" element={<ProtectedRoute><Layout><Members /></Layout></ProtectedRoute>} />
+                  <Route path="/agendas" element={<ProtectedRoute><Layout><Agendas /></Layout></ProtectedRoute>} />
+                  <Route path="/voting" element={<ProtectedRoute><Layout><Voting /></Layout></ProtectedRoute>} />
+                  <Route path="/search" element={<ProtectedRoute><Layout><SearchPage /></Layout></ProtectedRoute>} />
+                  <Route path="/oversight" element={<ProtectedRoute><Layout><Oversight /></Layout></ProtectedRoute>} />
+                  <Route path="/oversight/mpac" element={<ProtectedRoute><Layout><MPACReports /></Layout></ProtectedRoute>} />
+                  <Route path="/oversight/audit" element={<ProtectedRoute><Layout><AuditCommittee /></Layout></ProtectedRoute>} />
+                  <Route path="/oversight/disciplinary" element={<ProtectedRoute><Layout><Disciplinary /></Layout></ProtectedRoute>} />
+                  <Route path="/compliance" element={<ProtectedRoute><Layout><Compliance /></Layout></ProtectedRoute>} />
+                  <Route path="/processes" element={<ProtectedRoute><Layout><Processes /></Layout></ProtectedRoute>} />
+                  <Route path="/documents" element={<ProtectedRoute><Layout><Documents /></Layout></ProtectedRoute>} />
+                  <Route path="/departmental-dashboard" element={<ProtectedRoute><Layout><DepartmentalDashboard /></Layout></ProtectedRoute>} />
+                  <Route path="/profile" element={<ProtectedRoute><Layout><Profile /></Layout></ProtectedRoute>} />
+                  <Route path="/settings" element={<ProtectedRoute><Layout><Settings /></Layout></ProtectedRoute>} />
+                  <Route path="/admin/dashboard" element={<ProtectedRoute><SuperAdminDashboard /></ProtectedRoute>} />
+                  <Route path="/admin/organizations" element={<ProtectedRoute><Organizations /></ProtectedRoute>} />
+                  <Route path="/admin/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
+                  <Route path="/terms-of-service" element={<TermsOfService />} />
+                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </TooltipProvider>
+          </BrandingProvider>
+        </OrganizationProvider>
+      </AuthProvider>
+    </MsalProvider>
   </QueryClientProvider>
 );
 
