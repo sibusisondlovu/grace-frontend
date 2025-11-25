@@ -19,8 +19,20 @@ class ApiClient {
     }
 
     private async getAccessToken(): Promise<string | null> {
-        const account = this.getAccount();
-        if (!account) return null;
+        // 1. Check for local token (Email/Password login)
+        const localToken = localStorage.getItem('grace_token');
+        if (localToken) {
+            return localToken;
+        }
+
+        // 2. Fallback to MSAL (Microsoft login)
+        const account = this.getAccount(); // Use the existing getAccount method
+        if (!account) {
+            // If no MSAL account, and no local token, then no token is available.
+            // The original method returned null here, so we'll maintain that behavior
+            // rather than throwing an error, to align with the original method's signature.
+            return null;
+        }
 
         try {
             const response = await msalInstance.acquireTokenSilent({
