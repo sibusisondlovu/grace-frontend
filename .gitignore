@@ -24,7 +24,10 @@ dist-ssr
 *.sw?
 
 #backend
-server/
+# server/
+server/node_modules
+server/dist
+
 
 # Environment variables
 .env
