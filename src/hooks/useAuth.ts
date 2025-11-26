@@ -94,7 +94,7 @@ export const useAuthProvider = () => {
   const signInWithEmail = async (email: string, password: string) => {
     try {
       setLoading(true);
-      const response = await api.post('auth/signin', { email, password });
+      const response = await api.post('/auth/signin', { email, password });
 
       if (response.session && response.session.access_token) {
         localStorage.setItem('grace_token', response.session.access_token);

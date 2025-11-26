@@ -56,7 +56,14 @@ class ApiClient {
             ...(token ? { 'Authorization': `Bearer ${token}` } : {})
         };
 
-        const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        // Ensure proper URL construction with slashes
+        const baseUrl = API_BASE_URL.replace(/\/$/, '');
+        const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+        const url = `${baseUrl}${path}`;
+
+        console.log(`Making request to: ${url}`);
+
+        const response = await fetch(url, {
             ...options,
             headers
         });
