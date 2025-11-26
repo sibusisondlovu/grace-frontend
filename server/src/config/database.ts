@@ -10,7 +10,14 @@ const pool = new Pool({
   max: 20,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
+  ssl: false // Disable SSL
+});
+
+// Prevent unhandled errors from crashing the app
+pool.on('error', (err) => {
+  console.error('Unexpected database error:', err);
 });
 
 export default pool;
+
 
