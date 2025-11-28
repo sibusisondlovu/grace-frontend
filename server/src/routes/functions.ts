@@ -509,5 +509,78 @@ router.get('/health-check', async (req, res) => {
   }
 });
 
+// Complete user onboarding endpoint
+router.post('/complete-user-onboarding', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const { _user_id, _organization_name, _organization_domain, _first_name, _last_name } = req.body;
+
+    if (!_user_id || !_organization_name || !_first_name || !_last_name) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // Verify the authenticated user matches the requested user_id
+    if (req.user!.id !== _user_id) {
+      return res.status(403).json({ error: 'Unauthorized: User ID mismatch' });
+    }
+
+    await client.query('BEGIN');
+
+    // 1. Create organization
+    const orgResult = await client.query(
+      `INSERT INTO organizations (name, domain, is_active)
+       VALUES ($1, $2, true)
+       RETURNING id`,
+      [_organization_name, _organization_domain]
+    );
+    const orgId = orgResult.rows[0].id;
+
+    // 2. Update user profile
+    const profileResult = await client.query(
+      `UPDATE profiles
+       SET 
+         organization_id = $1,
+         first_name = $2,
+         last_name = $3,
+         updated_at = NOW()
+       WHERE user_id = $4
+       RETURNING id`,
+      [orgId, _first_name, _last_name, _user_id]
+    );
+
+    if (profileResult.rows.length === 0) {
+      throw new Error('Profile not found');
+    }
+    const profileId = profileResult.rows[0].id;
+
+    // 3. Assign admin role
+    await client.query(
+      `INSERT INTO user_roles (user_id, role)
+       VALUES ($1, 'admin')
+       ON CONFLICT (user_id, role) DO NOTHING`,
+      [_user_id]
+    );
+
+    await client.query('COMMIT');
+
+    res.json({
+      success: true,
+      organization_id: orgId,
+      profile_id: profileId,
+      message: 'Onboarding completed successfully'
+    });
+
+  } catch (error: any) {
+    await client.query('ROLLBACK');
+    console.error('Onboarding error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message || 'Failed to complete onboarding'
+    });
+  } finally {
+    client.release();
+  }
+});
+
 export default router;
 

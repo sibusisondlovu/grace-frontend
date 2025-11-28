@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
+import { api } from '@/services/api';
 import { Loader2, Building2, User, Rocket } from 'lucide-react';
 
 export default function Onboarding() {
@@ -31,8 +31,8 @@ export default function Onboarding() {
 
     setLoading(true);
     try {
-      // Use the database function for a complete onboarding
-      const { data, error } = await supabase.rpc('complete_user_onboarding', {
+      // Use the backend function for a complete onboarding
+      const result = await api.post('/functions/v1/complete-user-onboarding', {
         _user_id: user?.id,
         _organization_name: orgName,
         _organization_domain: orgDomain || orgSlug,
@@ -40,18 +40,15 @@ export default function Onboarding() {
         _last_name: lastName
       });
 
-      if (error) throw error;
-      
-      const result = data as any;
       if (!result.success) {
         throw new Error(result.error || 'Failed to complete onboarding');
       }
 
       toast.success('Setup complete! Welcome to G.R.A.C.E.');
-      
+
       // Mark that user should see the tour
       localStorage.setItem('show-product-tour', 'true');
-      
+
       // Navigate to dashboard
       navigate('/dashboard');
     } catch (error: any) {
@@ -80,7 +77,7 @@ export default function Onboarding() {
               <Building2 className="h-5 w-5 text-primary" />
               Organization Details
             </h3>
-            
+
             <div className="space-y-2">
               <Label htmlFor="orgName">Organization Name *</Label>
               <Input
