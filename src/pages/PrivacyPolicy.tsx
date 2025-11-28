@@ -26,13 +26,13 @@ export default function PrivacyPolicy() {
           <CardContent className="prose prose-sm max-w-none dark:prose-invert">
             <h2>1. Introduction</h2>
             <p>
-              G.R.A.C.E. (Government Reporting And Committee Execution) is committed to protecting 
-              your privacy and complying with POPIA (Protection of Personal Information Act) and 
+              G.R.A.C.E. (Government Reporting And Committee Execution) is committed to protecting
+              your privacy and complying with POPIA (Protection of Personal Information Act) and
               other applicable privacy regulations.
             </p>
 
             <h2>2. Information We Collect</h2>
-            
+
             <h3>2.1 Account Information</h3>
             <ul>
               <li>Name and email address</li>
@@ -70,23 +70,23 @@ export default function PrivacyPolicy() {
             </ul>
 
             <h2>4. Data Storage and Security</h2>
-            
+
             <h3>4.1 Security Measures</h3>
             <p>
-              All data is encrypted in transit using TLS 1.3 and at rest using AES-256 encryption. 
-              We implement role-based access control (RBAC) and row-level security (RLS) policies 
+              All data is encrypted in transit using TLS 1.3 and at rest using AES-256 encryption.
+              We implement role-based access control (RBAC) and row-level security (RLS) policies
               to ensure data isolation between organizations.
             </p>
 
             <h3>4.2 Data Location</h3>
             <p>
-              Data is stored on secure servers. For Azure Marketplace deployments, data may be 
+              Data is stored on secure servers. For Azure Marketplace deployments, data may be
               stored in Azure regions as specified in your subscription agreement.
             </p>
 
             <h3>4.3 Backup and Retention</h3>
             <p>
-              We maintain automated backups with a retention period of 30 days. Long-term data 
+              We maintain automated backups with a retention period of 30 days. Long-term data
               retention follows your organization's policy and applicable legal requirements.
             </p>
 
@@ -114,48 +114,47 @@ export default function PrivacyPolicy() {
 
             <h2>7. Cookies and Tracking</h2>
             <p>
-              We use essential cookies for authentication and session management. We do not use 
+              We use essential cookies for authentication and session management. We do not use
               third-party tracking cookies. You can control cookie settings through your browser.
             </p>
 
             <h2>8. Third-Party Services</h2>
             <p>We integrate with the following third-party services:</p>
             <ul>
-              <li>Supabase (database and authentication)</li>
-              <li>Microsoft Azure (authentication and hosting)</li>
+              <li>Microsoft Azure (authentication, hosting, and database)</li>
               <li>Resend (email notifications)</li>
             </ul>
             <p>Each service maintains its own privacy policy which we require to be compliant with applicable regulations.</p>
 
             <h2>9. Children's Privacy</h2>
             <p>
-              G.R.A.C.E. is designed for use by government officials and is not intended for 
+              G.R.A.C.E. is designed for use by government officials and is not intended for
               children under 18. We do not knowingly collect information from children.
             </p>
 
             <h2>10. International Data Transfers</h2>
             <p>
-              If you are accessing G.R.A.C.E. from outside South Africa, your information may be 
-              transferred to and processed in South Africa or other jurisdictions where our service 
+              If you are accessing G.R.A.C.E. from outside South Africa, your information may be
+              transferred to and processed in South Africa or other jurisdictions where our service
               providers operate. We ensure appropriate safeguards are in place for such transfers.
             </p>
 
             <h2>11. Data Breach Notification</h2>
             <p>
-              In the event of a data breach affecting your personal information, we will notify 
+              In the event of a data breach affecting your personal information, we will notify
               you and relevant authorities within 72 hours as required by POPIA.
             </p>
 
             <h2>12. Changes to Privacy Policy</h2>
             <p>
-              We may update this privacy policy periodically. We will notify you of significant 
-              changes via email or in-app notification. Continued use after changes constitutes 
+              We may update this privacy policy periodically. We will notify you of significant
+              changes via email or in-app notification. Continued use after changes constitutes
               acceptance of the updated policy.
             </p>
 
             <h2>13. Contact Information</h2>
             <p>
-              For privacy-related questions or to exercise your privacy rights, contact our 
+              For privacy-related questions or to exercise your privacy rights, contact our
               Data Protection Officer at:{" "}
               <a href="mailto:privacy@grace.gov.za">privacy@grace.gov.za</a>
             </p>

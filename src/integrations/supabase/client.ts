@@ -1,17 +1,24 @@
-// Supabase client has been removed in favor of Microsoft Entra ID and direct API calls.
-// This file is kept as a placeholder to prevent import errors during migration, 
-// but should not be used.
+// Stub file to prevent import errors during Supabase removal
+// All Supabase functionality has been moved to the backend API
 
 export const supabase = {
-  auth: {
-    onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => { } } } }),
-    getSession: async () => ({ data: { session: null } }),
-    signInWithPassword: async () => ({ error: { message: "Supabase auth removed" } }),
-    signOut: async () => ({ error: null }),
-    signInWithOAuth: async () => ({ error: { message: "Supabase auth removed" } }),
-  },
-  from: () => ({
-    select: () => ({ eq: () => ({ single: () => ({ data: null, error: null }) }) }),
-  })
-} as any;
-
+    from: () => ({
+        select: () => Promise.resolve({ data: [], error: null }),
+        insert: () => Promise.resolve({ data: null, error: null }),
+        update: () => Promise.resolve({ data: null, error: null }),
+        delete: () => Promise.resolve({ data: null, error: null }),
+        eq: function () { return this; },
+        neq: function () { return this; },
+        single: () => Promise.resolve({ data: null, error: null }),
+    }),
+    storage: {
+        from: () => ({
+            upload: () => Promise.resolve({ data: null, error: new Error('File uploads not yet implemented') }),
+            remove: () => Promise.resolve({ error: null }),
+            getPublicUrl: () => ({ data: { publicUrl: '' } }),
+        }),
+    },
+    auth: {
+        getUser: () => Promise.resolve({ data: { user: null }, error: null }),
+    },
+};
