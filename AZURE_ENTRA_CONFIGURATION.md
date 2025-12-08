@@ -1,68 +1,78 @@
-# Azure Entra ID Configuration Guide
+# Microsoft Entra ID Setup (From Scratch)
 
-To enable authentication with Microsoft Entra ID (formerly Azure AD), you need to register an application in the Azure Portal and configure your environment variables.
+This guide assumes you are starting fresh. Follow these steps to configure authentication for your application.
 
-## 1. Register an Application in Azure Portal
+## 1. Create a Fresh App Registration in Azure
 
-1.  Go to the [Azure Portal](https://portal.azure.com/).
+1.  Log in to the [Azure Portal](https://portal.azure.com/).
 2.  Search for **Microsoft Entra ID**.
-3.  Select **App registrations** > **New registration**.
-4.  **Name**: Enter a name (e.g., "Joburg Committee Craft").
-5.  **Supported account types**: Select **Accounts in any organizational directory (Any Microsoft Entra ID tenant - Multitenant)** (or Single tenant if internal only).
+3.  Click **App registrations** > **New registration**.
+4.  **Name**: `Grace App` (or your preferred name).
+5.  **Supported account types**:
+    *   Choose **Accounts in any organizational directory (Any Microsoft Entra ID tenant - Multitenant)**.
+    *   *Why? This allows users from other organizations to sign in, which is standard for SaaS apps.*
 6.  **Redirect URI**:
-    -   Select **Single-page application (SPA)**.
-    -   Enter `http://localhost:5173` (or your production URL).
+    *   Select **Single-page application (SPA)**.
+    *   Enter your **Production URL**: `https://login.craftsoftware.co.za` (NO trailing slash!).
 7.  Click **Register**.
 
-## 2. Configure Authentication
+## 2. Configure Authentication Settings
 
-1.  In your new app registration, go to **Authentication**.
-2.  Under **Implicit grant and hybrid flows**, check **Access tokens** and **ID tokens**.
-3.  Click **Save**.
+1.  In your new app's menu, click **Authentication**.
+2.  Under **Platform configurations** > **Single-page application**:
+    *   Ensure `https://login.craftsoftware.co.za` is listed.
+    *   **Add URI**: Add `http://localhost:5173` to allow local testing.
+3.  Scroll down to **Implicit grant and hybrid flows**:
+    *   **Check** [x] Access tokens (used for implicit flows).
+    *   **Check** [x] ID tokens (used for implicit and hybrid flows).
+4.  Click **Save**.
 
-## 3. API Permissions
+## 3. Get Your IDs
 
-1.  Go to **API permissions**.
-2.  Ensure **User.Read** (Microsoft Graph) is present.
-3.  Click **Grant admin consent** if required for your tenant.
+1.  Go to the **Overview** blade.
+2.  Copy the **Application (client) ID**.
+3.  Copy the **Directory (tenant) ID**.
 
-## 4. Get Configuration Values
+## 4. Configure Your Application
 
-Copy the following values from the **Overview** page:
--   **Application (client) ID**
--   **Directory (tenant) ID**
+You must set these values in your environment variables.
 
-## 5. Update Environment Variables
-
-### Frontend (`.env`)
-Update or create `.env` in the root directory:
+### For Local Development (`.env`)
+Create or edit `.env` in the project root:
 
 ```env
-VITE_AZURE_CLIENT_ID=your_client_id_here
-VITE_AZURE_TENANT_ID=your_tenant_id_here
+VITE_AZURE_CLIENT_ID=<Paste Client ID>
+VITE_AZURE_TENANT_ID=<Paste Tenant ID>
 VITE_API_URL=http://localhost:3001
 ```
 
-### Backend (`server/.env`)
-Update `server/.env`:
+### For Production (Azure Static Web Apps)
+**Crucial Step:** Azure Static Web Apps does NOT read your local `.env`. You must set these in the portal.
 
-```env
-AZURE_CLIENT_ID=your_client_id_here
-AZURE_TENANT_ID=your_tenant_id_here
-```
+1.  Go to your **Static Web App** resource in Azure Portal.
+2.  Go to **Settings** > **Environment variables**.
+3.  Add:
+    *   `VITE_AZURE_CLIENT_ID`: (Your Client ID)
+    *   `VITE_AZURE_TENANT_ID`: (Your Tenant ID)
+4.  Click **Save**.
 
-## 6. Update Code Configuration
+## 5. Verify the Code
 
-Open `src/authConfig.ts` and ensure it uses the environment variables:
-
+Your code is already set up to use these variables.
+File: `src/authConfig.ts`
 ```typescript
 export const msalConfig: Configuration = {
     auth: {
-        clientId: import.meta.env.VITE_AZURE_CLIENT_ID,
+        clientId: import.meta.env.VITE_AZURE_CLIENT_ID, // Reads from env
         authority: `https://login.microsoftonline.com/${import.meta.env.VITE_AZURE_TENANT_ID}`,
-        redirectUri: window.location.origin,
+        redirectUri: window.location.origin, // Dynamically uses current domain
     },
     // ...
 };
 ```
-*(Note: I have already updated `src/authConfig.ts` to use placeholders, please update it to use `import.meta.env` or hardcode values for testing)*
+
+## 6. Testing
+
+1.  Go to `https://login.craftsoftware.co.za`.
+2.  Attempt to sign in.
+3.  If you get an error, check the URL bar. If it matches `https://login.craftsoftware.co.za`, then Azure MUST match that exactly.
