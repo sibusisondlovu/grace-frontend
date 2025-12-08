@@ -80,6 +80,10 @@ export const useAuthProvider = () => {
 
   const signIn = async () => {
     try {
+      if (inProgress !== "none") {
+        console.log("Interaction already in progress, ignoring signIn call");
+        return;
+      }
       await instance.loginRedirect(loginRequest);
     } catch (error: any) {
       console.error("Login failed", error);
