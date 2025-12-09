@@ -4,8 +4,7 @@ import { msalConfig, loginRequest } from "../authConfig";
 // Initialize MSAL instance (outside of component to avoid recreation)
 export const msalInstance = new PublicClientApplication(msalConfig);
 
-// Initialize the instance
-await msalInstance.initialize();
+
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
