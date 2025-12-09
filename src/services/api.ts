@@ -4,13 +4,8 @@ import { msalConfig, loginRequest } from "../authConfig";
 // Initialize MSAL instance (outside of component to avoid recreation)
 export const msalInstance = new PublicClientApplication(msalConfig);
 
-// Initialize the instance and handle redirect
-msalInstance.initialize().then(() => {
-    // Handle redirect promise to process authentication responses
-    msalInstance.handleRedirectPromise().catch((error) => {
-        console.error("Error handling redirect:", error);
-    });
-});
+// Initialize the instance
+await msalInstance.initialize();
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
