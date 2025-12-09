@@ -80,6 +80,9 @@ export const useAuthProvider = () => {
 
   const signIn = async () => {
     try {
+      // Ensure any pending redirect is processed first
+      await instance.handleRedirectPromise();
+
       if (inProgress !== "none") {
         console.log("Interaction already in progress, ignoring signIn call");
         return;
