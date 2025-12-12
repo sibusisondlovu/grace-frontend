@@ -10,14 +10,14 @@ Follow these steps exactly to set up "Sign In with Microsoft" from scratch.
 4.  **Supported account types**: "Accounts in any organizational directory (Any Microsoft Entra ID tenant - Multitenant)".
 5.  **Redirect URI**:
     *   Select **Single-page application (SPA)**.
-    *   Enter: `https://login.craftsoftware.co.za`
+    *   Enter: `https://login.gracesoftware.co.za`
     *   *(Note: Do NOT add /dashboard or /auth/callback. Just the root domain.)*
 6.  Click **Register**.
 
 ## 2. Configure Redirect URIs
 
 1.  In your new app, go to **Authentication** (left menu).
-2.  Ensure `https://login.craftsoftware.co.za` is listed under **Single-page application**.
+2.  Ensure `https://login.gracesoftware.co.za` is listed under **Single-page application**.
 3.  **Add URI** (for local testing):
     *   `http://localhost:5173`
 4.  Check the boxes for **Access tokens** and **ID tokens** (optional but recommended for implicit flow, though MSAL uses auth code flow with PKCE).

@@ -50,7 +50,7 @@ export default function Onboarding() {
       localStorage.setItem('show-product-tour', 'true');
 
       // Navigate to dashboard (Force absolute URL to ensure we are on the main domain)
-      window.location.href = "https://login.craftsoftware.co.za/";
+      window.location.href = "https://login.gracesoftware.co.za/";
     } catch (error: any) {
       console.error('Onboarding error:', error);
       toast.error(`Failed to complete setup: ${error.message}`);

@@ -14,4 +14,4 @@ Here are the account details for testing different user roles in the system.
 | **Clerk** | `clerk@test.com` | Committee Clerk |
 
 ## Login URL
-[https://login.craftsoftware.co.za](https://login.craftsoftware.co.za)
+[https://login.gracesoftware.co.za](https://login.gracesoftware.co.za)

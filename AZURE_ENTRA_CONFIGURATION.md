@@ -13,14 +13,14 @@ This guide assumes you are starting fresh. Follow these steps to configure authe
     *   *Why? This allows users from other organizations to sign in, which is standard for SaaS apps.*
 6.  **Redirect URI**:
     *   Select **Single-page application (SPA)**.
-    *   Enter your **Production URL**: `https://login.craftsoftware.co.za` (NO trailing slash!).
+    *   Enter your **Production URL**: `https://login.gracesoftware.co.za` (NO trailing slash!).
 7.  Click **Register**.
 
 ## 2. Configure Authentication Settings
 
 1.  In your new app's menu, click **Authentication**.
 2.  Under **Platform configurations** > **Single-page application**:
-    *   Ensure `https://login.craftsoftware.co.za` is listed.
+    *   Ensure `https://login.gracesoftware.co.za` is listed.
     *   **Add URI**: Add `http://localhost:5173` to allow local testing.
 3.  Scroll down to **Implicit grant and hybrid flows**:
     *   **Check** [x] Access tokens (used for implicit flows).
@@ -58,21 +58,6 @@ VITE_API_URL=http://localhost:3001
 
 ## 5. Verify the Code
 
-Your code is already set up to use these variables.
-File: `src/authConfig.ts`
-```typescript
-export const msalConfig: Configuration = {
-    auth: {
-        clientId: import.meta.env.VITE_AZURE_CLIENT_ID, // Reads from env
-        authority: `https://login.microsoftonline.com/${import.meta.env.VITE_AZURE_TENANT_ID}`,
-        redirectUri: window.location.origin, // Dynamically uses current domain
-    },
-    // ...
-};
-```
-
-## 6. Testing
-
-1.  Go to `https://login.craftsoftware.co.za`.
+1.  Go to `https://login.gracesoftware.co.za`.
 2.  Attempt to sign in.
-3.  If you get an error, check the URL bar. If it matches `https://login.craftsoftware.co.za`, then Azure MUST match that exactly.
+3.  If you get an error, check the URL bar. If it matches `https://login.gracesoftware.co.za`, then Azure MUST match that exactly.
